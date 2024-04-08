@@ -1,5 +1,8 @@
-import {Button} from "@/components/ui/button";
+"use client";
+
 import {ArrowRight, BookOpenCheck} from "lucide-react";
+import { Button } from "./ui/button";
+import Link from "next/link";
 
 const Navbar = () => {
     return (
@@ -8,7 +11,7 @@ const Navbar = () => {
                 <div className="flex items-center justify-between h-full">
                     <div className="flex">
                         <BookOpenCheck className="text-black w-7 h-7 mr-3" />
-                        <span className="text-lg font-medium text-black">PDF AI</span>
+                        <span className="text-lg font-medium text-black">PDF Wisdom</span>
                     </div>
 
                     <Button variant="link">Get started <ArrowRight className="h-4 w-4 ml-1"/></Button>
@@ -16,6 +19,6 @@ const Navbar = () => {
             </div>
         </header>
     );
-}
+};
 
 export default Navbar;
