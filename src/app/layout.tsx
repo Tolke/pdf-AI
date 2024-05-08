@@ -1,8 +1,8 @@
-import type { Metadata } from "next";
-import { Poppins } from "next/font/google";
+import type {Metadata} from "next";
+import {Poppins} from "next/font/google";
 import "./globals.css";
-import Navbar from "@/components/Navbar";
 import React from "react";
+import {ClerkProvider} from '@clerk/nextjs'
 
 const poppins = Poppins({
     subsets: ["latin"],
@@ -12,21 +12,19 @@ const poppins = Poppins({
 });
 
 export const metadata: Metadata = {
-  title: "PDF Wisdom",
-  description: "Chat with any PDF document",
+    title: "PDF Wisdom",
+    description: "Chat with any PDF document",
 };
 
-export default function RootLayout({
-  children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
-  return (
-    <html lang="es">
-      <body className={poppins.className}>
-      <Navbar />
-      {children}
-      </body>
-    </html>
-  );
+export default function RootLayout({children}: Readonly<{ children: React.ReactNode; }>) {
+    return (
+        <ClerkProvider>
+            <html lang="es">
+            <body className={poppins.className}>
+
+            {children}
+            </body>
+            </html>
+        </ClerkProvider>
+    );
 }
