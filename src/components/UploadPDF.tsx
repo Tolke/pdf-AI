@@ -11,8 +11,9 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Upload, UploadCloud, X } from "lucide-react";
-import { useCallback, useState } from "react";
+import React, { useCallback, useState } from "react";
 import { useDropzone } from "react-dropzone";
+import { generatePreSignedUrl } from "@/actions/s3";
 
 const UploadPDF = () => {
   const [file, setFile] = useState<File | null>(null);
@@ -70,16 +71,30 @@ const UploadPDF = () => {
     resetForm();
   };
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    // Handle form submission here.
-    if (file) {
-      // Handle file upload
-      console.log("File uploaded: ", file);
-    } else if (url) {
-      // Handle URL input
-      console.log("URL provided: ", url);
+    try {
+      // Handle form submission here.
+      if (file) {
+        // Handle file upload
+        console.log("File uploaded: ", file);
+
+        // Generate presigned URL
+        const { putUrl, fileKey } = await generatePreSignedUrl(file.name, file.type);
+        console.log("Presigned URL: ", putUrl, '/n fileKey', fileKey);
+
+        // Upload PDF to S3
+      } else if (url) {
+        // Handle URL input
+        console.log("URL provided: ", url);
+      }
+    } catch (error) {
+      console.error(error);
+    } finally {
+      // reset form
+      resetForm();
+      // setOpen(false);
     }
   };
 
