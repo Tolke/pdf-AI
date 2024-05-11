@@ -4,9 +4,13 @@ import { currentUser  } from "@clerk/nextjs/server";
 import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
 import { S3Client, PutObjectCommand } from "@aws-sdk/client-s3";
 
-export const generatePreSignedUrl = async (fileName: string, fileType: string) => {
+export const generatePreSignedUrl = async (fileName: string, fileType: string | null) => {
     // @ts-ignore
-    const { id: userId } = await currentUser();
+    const { id: userId = '' } = await currentUser();
+
+    if (!userId) {
+        throw new Error("User not authenticated")
+    }
 
     if (!fileName || !fileType) {
         throw new Error("File name and file type are required");
