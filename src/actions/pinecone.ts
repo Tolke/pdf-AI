@@ -15,7 +15,7 @@ export const embedPDFtoPinecone = async (fileKey: string) => {
     if (!userId) {
         throw new Error("User not authenticated")
     }
-    debugger;
+
     if (!fileKey) {
         throw new Error("File key is required");
     }
