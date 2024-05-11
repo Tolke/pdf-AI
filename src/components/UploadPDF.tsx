@@ -10,6 +10,7 @@ import { useDropzone } from "react-dropzone";
 import { generatePreSignedUrl } from "@/actions/s3";
 import { checkFileSize, checkFileType, getPDFFileNameFromUrl, showToast } from "@/lib/utils";
 import { PROXY_IO } from "@/constants";
+import { embedPDFtoPinecone } from "@/actions/pinecone";
 
 const UploadPDF = () => {
     const [file, setFile] = useState<File | null>(null);
@@ -63,19 +64,16 @@ const UploadPDF = () => {
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
+        let fileS3Key = "";
 
         try {
             setIsLoading(true);
             // Handle form submission here.
             if (file) {
-                // Handle file upload
-                console.log("File uploaded: ", file);
-
                 // Generate presigned URL
                 const { putUrl, fileKey } = await generatePreSignedUrl(file.name, file.type);
-                console.log("Presigned URL: ", putUrl, '/n fileKey', fileKey);
 
-                // Upload PDF to S3
+                fileS3Key = fileKey;
                 await uploadPDFtoS3(file, putUrl);
             } else if (url) {
                 // Handle URL input
@@ -89,15 +87,16 @@ const UploadPDF = () => {
                 checkFileSize(fileSize, 10);
                 checkFileType(fileType);
 
-                // Generate presigned URL
                 const { putUrl, fileKey } = await generatePreSignedUrl(fileName, fileType);
-                console.log("Presigned URL: ", putUrl, '/n fileKey', fileKey);
-
-                // Upload PDF to S3
                 const blob = await response.blob();
-                await uploadPDFtoS3(blob, putUrl);
 
+                fileS3Key = fileKey;
+                await uploadPDFtoS3(blob, putUrl);
             }
+
+            // Upload Embed PDF to Pinecone
+            const docs = await embedPDFtoPinecone(fileS3Key);
+            console.log("Embedded PDF to Pinecone: ", docs);
         } catch (error: any) {
             showToast(error.message);
         } finally {

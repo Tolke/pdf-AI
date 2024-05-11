@@ -22,7 +22,7 @@ export function checkFileSize(size: number, maxSize: number) {
     const maxSizeInBytes = maxSize * 1024 * 1024;
 
     if (size > maxSizeInBytes) {
-        throw new Error(`Max file size: ${maxSize}Mb`)
+        throw new Error(`Max file size: ${ maxSize }Mb`)
     }
 
     return true;
@@ -40,7 +40,14 @@ export function checkFileType(fileType: string | null) {
 
 export function showToast(message: string) {
     toast.error(message, { position: 'top-right' })
+}
 
+export function serialize(obj: any) {
+    return Object.keys(obj).map(key => `${ key }=${ obj[key] }`).join("&")
+}
+
+export function convertToPlainObj(obj: any) {
+    return JSON.parse(JSON.stringify(obj));
 }
 
 function _getUrl(url: string | URL) {
