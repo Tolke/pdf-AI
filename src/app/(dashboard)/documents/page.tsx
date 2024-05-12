@@ -1,11 +1,12 @@
 import UploadPDF from "@/components/UploadPDF";
-import { File, Pencil, Trash2 } from "lucide-react";
+import { File, Trash2 } from "lucide-react";
 import Link from "next/link";
 import React from "react";
 import prismaDb from "@/lib/prisma";
 import { auth } from "@clerk/nextjs/server";
 import { formatDistanceToNow } from "date-fns";
 import { formatBytes } from "@/lib/utils";
+import UpdatePDF from "@/components/UpdatePDF";
 
 
 const Documents = async () => {
@@ -41,7 +42,7 @@ const Documents = async () => {
                                         className="w-4 h-4 mr-2"
                                         style={ { strokeWidth: "3" } }
                                     />
-                                    <Link href={`documents/${d.id}`}>
+                                    <Link href={ `documents/${ d.id }` }>
                                       <span className="text-ellipsis overflow-hidden whitespace-normal max-w-[300px] text-sm font-medium">
                                         { d.fileName }
                                       </span>
@@ -54,10 +55,7 @@ const Documents = async () => {
                                     { formatDistanceToNow(d.createdAt, { addSuffix: true }) }
                                 </td>
                                 <td className="p-4 text-right w-4">
-                                    <Pencil
-                                        className="w-4 h-4 cursor-pointer"
-                                        style={ { strokeWidth: "3" } }
-                                    />
+                                    <UpdatePDF document={ d }/>
                                 </td>
                                 <td className="p-4 text-right w-4">
                                     <Trash2
