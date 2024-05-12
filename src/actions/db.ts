@@ -23,7 +23,7 @@ export const createDocument = async (fileName: string, fileSize: number, fileKey
 
     revalidatePath('/documents');
 
-    return document;
+    return { document };
 }
 
 export const getDocument = async (id: string) => {

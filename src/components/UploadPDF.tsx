@@ -102,7 +102,6 @@ const UploadPDF = () => {
         await embedPDFtoPinecone(fileKey);
 
         // create document in the database
-        // @ts-ignore
         const { document } = await createDocument(fileName, fileSize, fileKey);
 
         // redirect to the document page
@@ -115,8 +114,6 @@ const UploadPDF = () => {
         const uploadResponse = await fetch(putUrl, {
             method: "PUT", body: file, headers: { "Content-Type": "application/pdf" },
         });
-
-        console.log("Upload response: ", uploadResponse);
     }
 
 

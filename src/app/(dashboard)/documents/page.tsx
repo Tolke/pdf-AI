@@ -16,7 +16,6 @@ const Documents = async () => {
         orderBy: { createdAt: "desc" },
         where: { userId: userId as string },
     });
-    console.log('documents', documents);
 
     return (
         <section className="bg-[#faf9f6] min-h-screen">
