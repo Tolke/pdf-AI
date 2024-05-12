@@ -2,10 +2,11 @@
 
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger, } from "@/components/ui/dialog";
-import { Trash2 } from "lucide-react";
-import React, { useState } from "react";
+import { Loader2, Trash2 } from "lucide-react";
+import React, { useState, useTransition } from "react";
 import { Document } from "@prisma/client";
-import SubmitButton from "@/components/SubmitButton";
+import { showToast } from "@/lib/utils";
+import { deleteDocument } from "@/actions/db";
 
 interface Props {
     document: Document
@@ -14,13 +15,14 @@ interface Props {
 const DeletePDF = ({ document }: Props) => {
     const [open, setOpen] = useState(false);
 
+    let [isPending, startTransition] = useTransition();
 
     return (<Dialog open={ open } onOpenChange={ setOpen }>
         <DialogTrigger asChild>
             <Trash2 className="w-4 h-4 cursor-pointer" style={ { strokeWidth: "3" } }/>
         </DialogTrigger>
 
-        <DialogContent className="sm:max-w-[425px]">
+        <DialogContent className="sm:max-w-[425px]" onOpenAutoFocus={ (e) => e.preventDefault() }>
             <DialogHeader>
                 <DialogTitle>Delete document</DialogTitle>
             </DialogHeader>
@@ -35,7 +37,20 @@ const DeletePDF = ({ document }: Props) => {
             </div>
 
             <div className="grid grid-cols-2 gap-4">
-                <SubmitButton isButtonEnabled={ true } title="Delete"/>
+                <Button
+                    type="submit" variant="orange" disabled={ isPending } onClick={ () => startTransition(() => {
+                    try {
+                        deleteDocument(document.id);
+                        setOpen(false);
+                    } catch (error) {
+                        console.log('error', error);
+                        showToast('Error deleting document')
+                    }
+                }) }
+                >
+                    { !isPending ? `Delete` :
+                        <Loader2 className="h-5 w-5 text-white/80 animate-spin" style={ { strokeWidth: "3" } }/> }
+                </Button>
                 <DialogTrigger asChild>
                     <Button variant="secondary">Cancel</Button>
                 </DialogTrigger>
