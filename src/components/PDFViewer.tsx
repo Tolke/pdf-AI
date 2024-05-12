@@ -7,7 +7,7 @@ import { ReactElement } from 'react';
 import '@react-pdf-viewer/core/lib/styles/index.css';
 import '@react-pdf-viewer/default-layout/lib/styles/index.css';
 
-const PDFViewer = () => {
+const PDFViewer = ({ url }: { url: string }) => {
     const renderToolbar = (Toolbar: (props: ToolbarProps) => ReactElement) => (
         <Toolbar>
             { (slots: ToolbarSlot) => {
@@ -76,8 +76,7 @@ const PDFViewer = () => {
         <div className="w-1/2 h-screen">
             <Worker workerUrl="https://unpkg.com/pdfjs-dist@3.4.120/build/pdf.worker.min.js">
                 <Viewer
-                    plugins={ [defaultLayout] }
-                    fileUrl="https://tfg-ai-pdf-chat.s3.eu-central-1.amazonaws.com/users/user_2gCJu86Fob9SD02Ccd3yNwdlXN0/1715460965288-Tony_Robbins.pdf"
+                    plugins={ [defaultLayout] } fileUrl={ url }
                 />
             </Worker>
         </div>

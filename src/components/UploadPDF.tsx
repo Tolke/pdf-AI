@@ -11,6 +11,8 @@ import { generatePreSignedUrl } from "@/actions/s3";
 import { checkFileSize, checkFileType, getPDFFileNameFromUrl, showToast } from "@/lib/utils";
 import { PROXY_IO } from "@/constants";
 import { embedPDFtoPinecone } from "@/actions/pinecone";
+import { createDocument } from "@/actions/db";
+import { useRouter } from "next/navigation";
 
 const UploadPDF = () => {
     const [file, setFile] = useState<File | null>(null);
@@ -18,6 +20,8 @@ const UploadPDF = () => {
     const [isButtonEnabled, setIsButtonEnabled] = useState(false);
     const [open, setOpen] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
+
+    const router = useRouter();
     const onDrop = useCallback((acceptedFiles: File[]) => {
         try {
             const pdfFile = acceptedFiles[0];
@@ -70,28 +74,19 @@ const UploadPDF = () => {
             setIsLoading(true);
             // Handle form submission here.
             if (file) {
-                // Generate presigned URL
-                const { putUrl, fileKey } = await generatePreSignedUrl(file.name, file.type);
-
-                fileS3Key = fileKey;
-                await uploadPDFtoS3(file, putUrl);
+                await processPdf(file, file.name, file.size, file.type);
             } else if (url) {
-                // Handle URL input
                 const fileName = getPDFFileNameFromUrl(url);
                 const proxyUrl = `${ PROXY_IO }/?${ url }`;
                 const response = await fetch(proxyUrl);
                 const fileSize = Number(response.headers.get("Content-Length"));
-                const fileType = response.headers.get("Content-Type");
+                const fileType = response.headers.get("Content-Type") ?? '';
 
-                // Checks for file size and type
                 checkFileSize(fileSize, 10);
                 checkFileType(fileType);
 
-                const { putUrl, fileKey } = await generatePreSignedUrl(fileName, fileType);
                 const blob = await response.blob();
-
-                fileS3Key = fileKey;
-                await uploadPDFtoS3(blob, putUrl);
+                await processPdf(blob, fileName, fileSize, fileType);
             }
 
             // Upload Embed PDF to Pinecone
@@ -104,6 +99,24 @@ const UploadPDF = () => {
             setIsLoading(false);
         }
     };
+
+    const processPdf = async (file: File | Blob, fileName: string, fileSize: number, fileType: string) => {
+        const { putUrl, fileKey } = await generatePreSignedUrl(fileName, fileType);
+
+        await uploadPDFtoS3(file, putUrl);
+        await embedPDFtoPinecone(fileKey);
+
+        // create document in the database
+        // @ts-ignore
+        const { document } = await createDocument(fileName, fileSize, fileKey);
+
+        // redirect to the document page
+        if (document) {
+            router.push(`/documents/${ document.id }`);
+        }
+
+
+    }
 
     const uploadPDFtoS3 = async (file: File | Blob, putUrl: string) => {
         const uploadResponse = await fetch(putUrl, {

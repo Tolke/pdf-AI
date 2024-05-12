@@ -1,11 +1,28 @@
 import React from "react";
 import PDFViewer from "@/components/PDFViewer";
 import Chat from "@/components/Chat";
+import { redirect } from "next/navigation";
+import { getDocument } from "@/actions/db";
 
-const ChatPage = () => {
+interface Props {
+    params: {
+        id: string;
+    }
+}
+
+const ChatPage = async ({ params: { id } }: Props) => {
+    const { document } = await getDocument(id);
+    console.log('chat document', document);
+
+    if (!document) {
+        redirect("/documents")
+    }
+
+    const s3Url = `https://${ process.env.NEXT_PUBLIC_S3_BUCKET_NAME }.s3.${ process.env.NEXT_PUBLIC_S3_BUCKET_REGION }.amazonaws.com/${ document.fileKey }`;
+
     return (
         <div className="flex">
-            <PDFViewer/>
+            <PDFViewer url={ s3Url }/>
             <Chat/>
         </div>
     )
