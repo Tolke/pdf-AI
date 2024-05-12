@@ -1,6 +1,7 @@
 import { type ClassValue, clsx } from "clsx"
 import { twMerge } from "tailwind-merge"
 import { toast } from "react-toastify"
+import React from "react";
 
 export function cn(...inputs: ClassValue[]) {
     return twMerge(clsx(inputs))
@@ -59,6 +60,12 @@ export function formatBytes(bytes: number, decimals = 2): string {
     const i = Math.floor(Math.log(bytes) / Math.log(k));
 
     return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + " " + sizes[i];
+}
+
+export function scrollToBottom(messageEndRef: React.RefObject<HTMLElement>) {
+    if (messageEndRef.current) {
+        messageEndRef.current?.scrollIntoView({ behavior: "smooth" });
+    }
 }
 
 function _getUrl(url: string | URL) {

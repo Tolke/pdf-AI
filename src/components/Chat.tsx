@@ -1,10 +1,10 @@
 "use client";
 
-import React from "react";
+import React, { useEffect } from "react";
 import { Input } from "@/components/ui/input";
 import { Bot, Loader2, Send, User } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { cn } from "@/lib/utils";
+import { cn, scrollToBottom } from "@/lib/utils";
 import { Message, useChat } from "ai/react";
 import { Document } from "@prisma/client";
 
@@ -22,6 +22,11 @@ const Chat = ({ document }: Props) => {
     } = useChat({
         body: { fileKey: document.fileKey }
     });
+    const messagesEndRef = React.useRef<HTMLDivElement | null>(null);
+
+    useEffect(() => {
+        scrollToBottom(messagesEndRef);
+    }, [messages])
 
     return (
         <div className="w-1/2 h-[calc(100vh-60px)] overflow-scroll bg-white">
@@ -43,6 +48,7 @@ const Chat = ({ document }: Props) => {
                             </div>
                         )) }
                     </div>
+                    <div ref={ messagesEndRef }/>
                 </div>
 
 
