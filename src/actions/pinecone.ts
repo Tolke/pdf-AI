@@ -51,3 +51,25 @@ export const embedPDFtoPinecone = async (fileKey: string) => {
 
     return splitDocs.map(convertToPlainObj);
 }
+
+export const deletePineconeIndex = async (fileKey: string) => {
+    const { userId = '' } = auth();
+
+    if (!userId) {
+        throw new Error("User not authenticated")
+    }
+
+    if (!fileKey) {
+        throw new Error("File key is required");
+    }
+
+    const pinecone = new Pinecone({ apiKey: process.env.PINECONE_API_KEY! });
+    const index = pinecone.Index(process.env.PINECONE_INDEX_NAME!);
+
+    const vectorStore = await PineconeStore.fromExistingIndex(new OpenAIEmbeddings(), {
+        pineconeIndex: index,
+        namespace: fileKey
+    });
+
+    await vectorStore.delete({ deleteAll: true });
+}
