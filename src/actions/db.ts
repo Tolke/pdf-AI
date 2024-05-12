@@ -26,14 +26,24 @@ export const createDocument = async (fileName: string, fileSize: number, fileKey
     return { document };
 }
 
-export const getDocument = async (id: string) => {
+export const getDocument = async (documentId: string) => {
     const user = await currentUser();
 
     if (!user || !user.id) {
         throw new Error("User not authenticated")
     }
 
-    const document = await prismaDb.document.findUnique({ where: { id, userId: user.id } });
+    const document = await prismaDb.document.findUnique({
+        where: {
+            id: documentId,
+            userId: user.id
+        },
+        include: {
+            messages: {
+                orderBy: { createdAt: "asc" }
+            }
+        }
+    });
 
     return { document };
 }

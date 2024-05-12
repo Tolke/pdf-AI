@@ -6,10 +6,10 @@ import { Bot, Loader2, Send, User } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn, scrollToBottom } from "@/lib/utils";
 import { Message, useChat } from "ai/react";
-import { Document } from "@prisma/client";
+import { Document, Message as MessageDB } from "@prisma/client";
 
 interface Props {
-    document: Document
+    document: Document & { messages: MessageDB }
 }
 
 const Chat = ({ document }: Props) => {
@@ -20,7 +20,8 @@ const Chat = ({ document }: Props) => {
         handleInputChange,
         handleSubmit
     } = useChat({
-        body: { fileKey: document.fileKey }
+        body: { documentId: document.id, fileKey: document.fileKey },
+        initialMessages: document.messages
     });
     const messagesEndRef = React.useRef<HTMLDivElement | null>(null);
 
