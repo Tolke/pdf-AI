@@ -6,10 +6,21 @@ import { Bot, Loader2, Send, User } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { Message, useChat } from "ai/react";
+import { Document } from "@prisma/client";
 
-const Chat = () => {
-    const { messages, input, isLoading, handleInputChange, handleSubmit } = useChat({
+interface Props {
+    document: Document
+}
 
+const Chat = ({ document }: Props) => {
+    const {
+        messages,
+        input,
+        isLoading,
+        handleInputChange,
+        handleSubmit
+    } = useChat({
+        body: { fileKey: document.fileKey }
     });
 
     return (

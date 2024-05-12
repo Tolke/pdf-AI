@@ -22,7 +22,7 @@ const ChatPage = async ({ params: { id } }: Props) => {
     return (
         <div className="flex">
             <PDFViewer url={ s3Url }/>
-            <Chat/>
+            <Chat document={ document }/>
         </div>
     )
 

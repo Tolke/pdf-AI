@@ -7,7 +7,7 @@ import { CallbackManager } from "@langchain/core/callbacks/manager";
 import { VectorDBQAChain } from "langchain/chains";
 
 export async function POST(req: NextRequest) {
-    const { messages } = await req.json();
+    const { messages, fileKey } = await req.json();
     const query = messages[messages.length - 1].content;
     const { stream, handlers } = LangChainStream();
 
@@ -16,7 +16,7 @@ export async function POST(req: NextRequest) {
     const index = pinecone.Index(process.env.PINECONE_INDEX_NAME!);
     const vectorStore = await PineconeStore.fromExistingIndex(new OpenAIEmbeddings(), {
         pineconeIndex: index,
-        namespace: 'users/user_2gCJu86Fob9SD02Ccd3yNwdlXN0/1715526260940-Tony_Robbins.pdf'
+        namespace: fileKey
     });
 
     // Open AI model
