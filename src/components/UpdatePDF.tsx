@@ -4,10 +4,11 @@ import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger, } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Loader2, Pencil } from "lucide-react";
+import { Pencil } from "lucide-react";
 import React, { useState } from "react";
 import { Document } from "@prisma/client";
 import { updateDocument } from "@/actions/db";
+import SubmitButton from "@/components/SubmitButton";
 
 interface Props {
     document: Document
@@ -41,7 +42,7 @@ const UpdatePDF = ({ document }: Props) => {
                 <DialogTitle>Update document</DialogTitle>
             </DialogHeader>
 
-            <form action={updateDocumentWithId} className="space-y-6">
+            <form action={ updateDocumentWithId } className="space-y-6">
                 <div className="space-y-2">
                     <Label htmlFor="url">Name</Label>
                     <Input
@@ -55,11 +56,7 @@ const UpdatePDF = ({ document }: Props) => {
                 </div>
 
                 <div className="grid grid-cols-2 gap-4">
-                    <Button type="submit" variant="orange" disabled={ !isButtonEnabled || isLoading }>
-                        { !isLoading ? "Update" :
-                            <Loader2 className="h-5 w-5 text-white/80 animate-spin" style={ { strokeWidth: "3" } }/> }
-
-                    </Button>
+                    <SubmitButton isButtonEnabled title="Update"/>
                     <DialogTrigger asChild>
                         <Button variant="secondary">Cancel</Button>
                     </DialogTrigger>
