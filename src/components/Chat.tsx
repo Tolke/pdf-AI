@@ -1,16 +1,16 @@
+"use client";
+
 import React from "react";
 import { Input } from "@/components/ui/input";
-import { Bot, Send, User } from "lucide-react";
+import { Bot, Loader2, Send, User } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
+import { Message, useChat } from "ai/react";
 
 const Chat = () => {
-    const messages = [
-        { role: "user", content: "Hello" },
-        { role: "assistant", content: "Hi, how can I help you?" },
-        { role: "user", content: "I need help with my account" },
-        { role: "assistant", content: "Sure, what do you need help with?" },
-    ];
+    const { messages, input, isLoading, handleInputChange, handleSubmit } = useChat({
+
+    });
 
     return (
         <div className="w-1/2 h-[calc(100vh-60px)] overflow-scroll bg-white">
@@ -18,7 +18,7 @@ const Chat = () => {
                 {/* Chat messages */ }
                 <div className="overflow-auto bg-white">
                     <div className="flex flex-col">
-                        { messages.map((message, index) => (
+                        { messages.map((message: Message, index) => (
                             <div
                                 key={ index }
                                 className={ cn("p-6 w-full flex items-start gap-x-8", message.role === "user" ? "bg-white" : "bg-[#faf9f6]") }
@@ -37,14 +37,25 @@ const Chat = () => {
 
                 {/* Chat input */ }
                 <div className="bg-[#faf9f6]">
-                    <form className="m-4 p-2 flex items-center justify-between rounded-md border-[#e5e3da] border bg-white">
+                    <form
+                        onSubmit={ handleSubmit }
+                        className="m-4 p-2 flex items-center justify-between rounded-md border-[#e5e3da] border bg-white"
+                    >
                         <Input
                             className="border-none outline-none focus-visible:ring-0 focus-visible:ring-transparent"
                             placeholder="Enter your question"
+                            value={ input }
+                            onChange={ handleInputChange }
+                            disabled={ isLoading }
                         />
-                        <Button variant="orange">
-                            <Send className="w-4 h-4"/>
-                        </Button>
+                        { isLoading ? (
+                            <Loader2 className="h-5 w-5 text-[#ff612f]/70 animate-spin" style={ { strokeWidth: "3" } }/>
+                        ) : (
+                            <Button variant="orange" type="submit">
+                                <Send className="w-4 h-4"/>
+                            </Button>
+                        ) }
+
                     </form>
                 </div>
             </div>
