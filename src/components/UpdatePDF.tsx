@@ -7,6 +7,7 @@ import { Label } from "@/components/ui/label";
 import { Loader2, Pencil } from "lucide-react";
 import React, { useState } from "react";
 import { Document } from "@prisma/client";
+import { updateDocument } from "@/actions/db";
 
 interface Props {
     document: Document
@@ -28,6 +29,7 @@ const UpdatePDF = ({ document }: Props) => {
         setIsButtonEnabled(e.target.value !== '');
     }
 
+    const updateDocumentWithId = updateDocument.bind(null, document.id);
 
     return (<Dialog open={ open } onOpenChange={ handleOpenDialog }>
         <DialogTrigger asChild>
@@ -39,12 +41,12 @@ const UpdatePDF = ({ document }: Props) => {
                 <DialogTitle>Update document</DialogTitle>
             </DialogHeader>
 
-            <form className="space-y-6">
+            <form action={updateDocumentWithId} className="space-y-6">
                 <div className="space-y-2">
                     <Label htmlFor="url">Name</Label>
                     <Input
                         id="documentName"
-                        name="url"
+                        name="fileName"
                         value={ documentName }
                         onChange={ handlerDocumentName }
                         className="font-light"

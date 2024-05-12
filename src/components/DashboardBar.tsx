@@ -2,6 +2,8 @@
 
 import { BookOpenCheck } from "lucide-react";
 import { UserButton } from "@clerk/nextjs";
+import { Button } from "@/components/ui/button";
+import Link from "next/link";
 
 const DashboardBar = () => {
     return (
@@ -13,7 +15,12 @@ const DashboardBar = () => {
                         <span className="text-lg font-medium text-black">PDF.wisdom</span>
                     </div>
 
-                    <UserButton afterSignOutUrl="/"/>
+                    <div className="flex">
+                        <Link href="/documents">
+                            <Button variant="link">Documents</Button>
+                        </Link>
+                        <UserButton afterSignOutUrl="/"/>
+                    </div>
                 </div>
             </div>
         </header>
