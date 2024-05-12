@@ -42,7 +42,14 @@ const UpdatePDF = ({ document }: Props) => {
                 <DialogTitle>Update document</DialogTitle>
             </DialogHeader>
 
-            <form action={ updateDocumentWithId } className="space-y-6">
+            <form
+                action={ (data) => {
+                    updateDocumentWithId(data).then(() => {
+                        setOpen(false);
+                    });
+                } }
+                className="space-y-6"
+            >
                 <div className="space-y-2">
                     <Label htmlFor="url">Name</Label>
                     <Input
