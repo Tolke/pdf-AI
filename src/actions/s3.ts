@@ -1,8 +1,8 @@
 "use server";
 
-import { currentUser  } from "@clerk/nextjs/server";
+import { currentUser } from "@clerk/nextjs/server";
 import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
-import { S3Client, PutObjectCommand } from "@aws-sdk/client-s3";
+import { DeleteObjectCommand, PutObjectCommand, S3Client } from "@aws-sdk/client-s3";
 
 export const generatePreSignedUrl = async (fileName: string, fileType: string | null) => {
     // @ts-ignore
@@ -38,4 +38,23 @@ export const generatePreSignedUrl = async (fileName: string, fileType: string | 
     const putUrl = await getSignedUrl(client, putObjectCommand, { expiresIn: 60 });
 
     return { putUrl, fileKey };
+}
+
+export const deleteFile = async (fileKey: string) => {
+    const client = new S3Client({
+        region: process.env.NEXT_PUBLIC_S3_BUCKET_REGION!,
+        credentials: {
+            accessKeyId: process.env.NEXT_PUBLIC_S3_ACCESS_KEY_ID!,
+            secretAccessKey: process.env.NEXT_PUBLIC_S3_SECRET_ACCESS_KEY_ID!,
+        }
+    });
+
+    if (!fileKey) {
+        throw new Error("File key is required");
+    }
+
+    await client.send(new DeleteObjectCommand({
+        Bucket: process.env.NEXT_PUBLIC_S3_BUCKET_NAME!,
+        Key: fileKey,
+    }));
 }
