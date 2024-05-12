@@ -68,7 +68,6 @@ const UploadPDF = () => {
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        let fileS3Key = "";
 
         try {
             setIsLoading(true);
@@ -88,10 +87,6 @@ const UploadPDF = () => {
                 const blob = await response.blob();
                 await processPdf(blob, fileName, fileSize, fileType);
             }
-
-            // Upload Embed PDF to Pinecone
-            const docs = await embedPDFtoPinecone(fileS3Key);
-            console.log("Embedded PDF to Pinecone: ", docs);
         } catch (error: any) {
             showToast(error.message);
         } finally {
@@ -114,8 +109,6 @@ const UploadPDF = () => {
         if (document) {
             router.push(`/documents/${ document.id }`);
         }
-
-
     }
 
     const uploadPDFtoS3 = async (file: File | Blob, putUrl: string) => {

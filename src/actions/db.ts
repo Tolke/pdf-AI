@@ -7,7 +7,7 @@ import { revalidatePath } from "next/cache";
 export const createDocument = async (fileName: string, fileSize: number, fileKey: string) => {
     const user = await currentUser();
 
-    if (!user || user.id) {
+    if (!user || !user.id) {
         throw new Error("User not authenticated")
     }
 

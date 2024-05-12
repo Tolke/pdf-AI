@@ -7,6 +7,8 @@ import React, { useState, useTransition } from "react";
 import { Document } from "@prisma/client";
 import { showToast } from "@/lib/utils";
 import { deleteDocument } from "@/actions/db";
+import { deleteS3File } from "@/actions/s3";
+import { deletePineconeIndex } from "@/actions/pinecone";
 
 interface Props {
     document: Document
@@ -40,10 +42,12 @@ const DeletePDF = ({ document }: Props) => {
                 <Button
                     type="submit" variant="orange" disabled={ isPending } onClick={ () => startTransition(() => {
                     try {
+                        const fileKey = document.fileKey;
+                        deleteS3File(fileKey);
+                        deletePineconeIndex(fileKey);
                         deleteDocument(document.id);
                         setOpen(false);
                     } catch (error) {
-                        console.log('error', error);
                         showToast('Error deleting document')
                     }
                 }) }

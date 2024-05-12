@@ -40,7 +40,7 @@ export const generatePreSignedUrl = async (fileName: string, fileType: string | 
     return { putUrl, fileKey };
 }
 
-export const deleteFile = async (fileKey: string) => {
+export const deleteS3File = async (fileKey: string) => {
     const client = new S3Client({
         region: process.env.NEXT_PUBLIC_S3_BUCKET_REGION!,
         credentials: {
