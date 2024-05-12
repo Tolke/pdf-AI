@@ -72,7 +72,6 @@ const Chat = ({ document }: Props) => {
                                 <Send className="w-4 h-4"/>
                             </Button>
                         ) }
-
                     </form>
                 </div>
             </div>
