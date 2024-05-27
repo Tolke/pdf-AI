@@ -8,10 +8,16 @@ import { formatDistanceToNow } from "date-fns";
 import { formatBytes } from "@/lib/utils";
 import UpdatePDF from "@/components/UpdatePDF";
 import DeletePDF from "@/components/DeletePDF";
+import { redirect } from "next/navigation";
 
 
 const Documents = async () => {
     const { userId } = auth();
+
+    if (!userId) {
+        return redirect("/")
+    }
+
     const documents = await prismaDb.document.findMany({
         orderBy: { createdAt: "desc" },
         where: { userId: userId as string },

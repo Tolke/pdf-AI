@@ -9,7 +9,7 @@ import { Message, useChat } from "ai/react";
 import { Document, Message as MessageDB } from "@prisma/client";
 
 interface Props {
-    document: Document & { messages: MessageDB }
+    document: Document & { messages: MessageDB[] }
 }
 
 const Chat = ({ document }: Props) => {
