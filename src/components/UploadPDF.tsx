@@ -121,13 +121,13 @@ const UploadPDF = () => {
         <DialogTrigger asChild>
             <Button variant="orange">
                 <Upload className="w-4 h-4 mr-2" style={ { strokeWidth: "3" } }/>
-                Upload
+                Cargar PDF
             </Button>
         </DialogTrigger>
 
         <DialogContent className="sm:max-w-[425px]">
             <DialogHeader>
-                <DialogTitle>Upload a document</DialogTitle>
+                <DialogTitle>Cargar un documento</DialogTitle>
             </DialogHeader>
 
             <form onSubmit={ handleSubmit } className="space-y-6">
