@@ -82,7 +82,7 @@ const LandingPage = () => {
                             <div className="flex items-center justify-center">
                                 <img src="/feature_1.svg" alt="feature 1"/>
                             </div>
-                            <p className="text-xl font-medium">Upload documents</p>
+                            <p className="text-xl font-medium">Sube documentos</p>
                             <span className="block text-sm text-gray-500 mt-3">
                                 Sube fácilmente los documentos PDF con los que te gustaría chatear.
                             </span>
@@ -95,7 +95,7 @@ const LandingPage = () => {
                             <div className="flex items-center justify-center">
                                 <img src="/feature_2.svg" alt="feature 1"/>
                             </div>
-                            <p className="text-xl font-medium">Instant answers</p>
+                            <p className="text-xl font-medium">Respuestas instantáneas</p>
                             <span className="block text-sm text-gray-500 mt-3">
                                 Haz preguntas, extrae información y resume documentos con IA.
                             </span>
@@ -108,7 +108,7 @@ const LandingPage = () => {
                             <div className="flex items-center justify-center">
                                 <img src="/feature_3.svg" alt="feature 1"/>
                             </div>
-                            <p className="text-xl font-medium">Sources included</p>
+                            <p className="text-xl font-medium">Fuentes incluidas</p>
                             <span className="block text-sm text-gray-500 mt-3">
                                 Cada respuesta está respaldada por fuentes extraídas del documento subido.
                             </span>
