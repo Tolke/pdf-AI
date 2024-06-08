@@ -27,7 +27,7 @@ const Documents = async () => {
         <section className="bg-[#faf9f6] min-h-screen">
             <div className="section-container">
                 <div className="flex items-center justify-between mb-4">
-                    <h1 className="text-2xl">Documents</h1>
+                    <h1 className="text-2xl">Documentos</h1>
                     <UploadPDF/>
                 </div>
 

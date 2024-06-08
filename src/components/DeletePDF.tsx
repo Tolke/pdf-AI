@@ -26,12 +26,12 @@ const DeletePDF = ({ document }: Props) => {
 
         <DialogContent className="sm:max-w-[425px]" onOpenAutoFocus={ (e) => e.preventDefault() }>
             <DialogHeader>
-                <DialogTitle>Delete document</DialogTitle>
+                <DialogTitle>Eliminar documento</DialogTitle>
             </DialogHeader>
 
             <div className="flex flex-col mb-2">
                 <span className="text-sm mb-4">
-                    Do you want to delete the following document?
+                    ¿Desea eliminar el siguiente documento?
                 </span>
                 <span className="text-sm font-semibold border-black border-l-2 px-2 whitespace-nowrap w-20">
                     { document.fileName }
@@ -48,15 +48,15 @@ const DeletePDF = ({ document }: Props) => {
                         deleteDocument(document.id);
                         setOpen(false);
                     } catch (error) {
-                        showToast('Error deleting document')
+                        showToast('Error al eliminar el documento. Inténtelo de nuevo.');
                     }
                 }) }
                 >
-                    { !isPending ? `Delete` :
+                    { !isPending ? `Eliminar` :
                         <Loader2 className="h-5 w-5 text-white/80 animate-spin" style={ { strokeWidth: "3" } }/> }
                 </Button>
                 <DialogTrigger asChild>
-                    <Button variant="secondary">Cancel</Button>
+                    <Button variant="secondary">Cancelar</Button>
                 </DialogTrigger>
             </div>
 

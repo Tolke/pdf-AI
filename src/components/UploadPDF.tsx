@@ -27,7 +27,7 @@ const UploadPDF = () => {
             const pdfFile = acceptedFiles[0];
 
             if (!pdfFile) {
-                showToast("Please upload only PDF file.")
+                showToast("Por favor, suba un archivo PDF")
                 return;
             }
             checkFileType(pdfFile.type);
@@ -150,7 +150,7 @@ const UploadPDF = () => {
                             <input name="file" { ...getInputProps() } />
                             <UploadCloud className="w-10 h-10 text-[#ff612f]"/>
                             <p className="mt-2 text-sm text-slate-400">
-                                Drag and drop a PDF file here or click
+                                Arrastre y suelte un archivo PDF aquí o haga clic
                             </p>
                         </div>) }
                     </div>
@@ -159,7 +159,7 @@ const UploadPDF = () => {
                 <div className="flex items-center">
                     <div className="flex-grow border-t border-gray-200"></div>
                     <span className="flex-shrink mx-4 uppercase text-gray-600 text-xs">
-                    or
+                    o
                     </span>
                     <div className="flex-grow border-t border-gray-200"></div>
                 </div>

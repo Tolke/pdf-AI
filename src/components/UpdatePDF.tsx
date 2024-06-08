@@ -39,7 +39,7 @@ const UpdatePDF = ({ document }: Props) => {
 
         <DialogContent className="sm:max-w-[425px]" onOpenAutoFocus={ (e) => e.preventDefault() }>
             <DialogHeader>
-                <DialogTitle>Update document</DialogTitle>
+                <DialogTitle>Actualizar documento</DialogTitle>
             </DialogHeader>
 
             <form

@@ -17,7 +17,7 @@ const DashboardBar = () => {
 
                     <div className="flex">
                         <Link href="/documents">
-                            <Button variant="link">Documents</Button>
+                            <Button variant="link">Documentos</Button>
                         </Link>
                         <UserButton afterSignOutUrl="/"/>
                     </div>
