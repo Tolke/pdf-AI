@@ -18,7 +18,7 @@ const Navbar = () => {
                     </div>
 
                     <Link href={ isSignedIn ? "/documents" : "/sign-in" }>
-                        <Button variant="link">Get started <ArrowRight className="h-4 w-4 ml-1"/></Button>
+                        <Button variant="link">Empezar <ArrowRight className="h-4 w-4 ml-1"/></Button>
                     </Link>
                 </div>
             </div>
