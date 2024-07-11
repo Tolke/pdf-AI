@@ -1,36 +1,93 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Búsqueda y conversación artificial sobre información discreta
 
-## Getting Started
+_Este proyecto es una aplicación web que permite subir un archivo pdf, procesarlo y guardar la información en uan base de datos vectorial.
+Seguidamente poder conversar con un agente de inteligencia artificial para obtener información sobre dicha información almacenada._
 
-First, run the development server:
+Es un Trabajo Fin de Grado elaborado para el **Curso de Adaptación al Grado de Informática** de la [Universidad Internacional de La Rioja](https://www.unir.net/).
+
+## Comenzando 🚀
+
+_Estas instrucciones te permitirán obtener una copia del proyecto en funcionamiento en tu máquina local para propósitos de desarrollo y pruebas._
+
+
+### Pre-requisitos 📋
+
+* Registrar una cuenta en [Clerk](https://www.clerk.dev/) y obtener las credenciales de la aplicación.
+* Registrar una cuenta en [AWS S3](https://aws.amazon.com/s3/) y obtener las credenciales de la aplicación. 
+  * Crear un bucket en S3.
+* Registrar una cuenta en [Pinecone](https://www.pinecone.io/) y obtener las credenciales de la aplicación.
+* Registrar una cuenta en [Open Ai](https://www.openai.com/) y obtener las credenciales de la aplicación.
+* Registrar una cuenta en [Supabase](https://www.supabase.io/) y obtener las credenciales de la aplicación.
+  * Crear una base de datos PostgreSQL en Supabase.
+
+Se tiene que crear un archivo,  `.env` en la raíz del proyecto con las siguientes variables de entorno:
+
+```
+# Clerk
+NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=CLERK_PUBLISHABLE_KEY
+CLERK_SECRET_KEY=CLERK_SECRET_KEY
+NEXT_PUBLIC_CLERK_SIGN_IN_URL=/sign-in
+NEXT_PUBLIC_CLERK_SIGN_UP_URL=/sign-up
+NEXT_PUBLIC_CLERK_SIGN_IN_FORCE_REDIRECT_URL=/documents
+NEXT_PUBLIC_CLERK_SIGN_UP_FORCE_REDIRECT_URL=/documents
+
+# AWS S3
+NEXT_PUBLIC_S3_ACCESS_KEY_ID=S3_ACCESS_KEY_ID
+NEXT_PUBLIC_S3_SECRET_ACCESS_KEY_ID=S3_SECRET_ACCESS_KEY_ID
+NEXT_PUBLIC_S3_BUCKET_NAME=S3_BUCKET_NAME
+NEXT_PUBLIC_S3_BUCKET_REGION=S3_BUCKET_REGION
+NEXT_PUBLIC_S3_BUCKET_URL=S3_BUCKET_URL
+
+# Pinecone
+PINECONE_INDEX_NAME=PINECONE_INDEX_NAME
+PINECONE_API_KEY=PINCEONE_API_KEY
+PINECONE_ENVIRONMENT=PINCEONE_ENVIRONMENT
+
+# Open Ai
+OPENAI_API_KEY=OPENAI_API_KEY
+
+# Database
+DATABASE_URL=DATABASE_URL
+```
+
+### Instalación 🔧
+
+_Clonar el repositorio_
+
+```bash
+git clone [repository url]
+```
+
+_Crear fichero `.env` con las variables de entorno_
+_Instalar las dependencias_
+
+```bash
+cd [project folder]
+npm install
+```
+
+_Ejecutar el proyecto en modo desarrollo_
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+_Abrir el navegador en la dirección `http://localhost:3000`_
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+_Disfrutar de la aplicación_
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+## Construido con 🛠️
 
-## Learn More
+* [Next.js](https://nextjs.org/) - El framework web usado
+* [Tailwind CSS](https://tailwindcss.com/) - El framework de estilos
+* [React](https://es.reactjs.org/) - La librería de JavaScript
+* [Prisma](https://www.prisma.io/) - ORM para la base de datos
 
-To learn more about Next.js, take a look at the following resources:
+## Autores ✒️
+* **Miguel Ángel Casanova Morales** - *Trabajo Inicial* - [Miguel Ángel Casanova Morales](https://www.linkedin.com/in/mikycasanova/)
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Agradecimientos 🎁
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+* A mi familia por su apoyo incondicional.
+* A la universidad por darme la oportunidad de realizar este proyecto.
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
